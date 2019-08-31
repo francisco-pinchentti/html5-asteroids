@@ -6,6 +6,10 @@ README.md
 A simple asteroids-like clone made with JS, CSS3 and HTML5.
 Uses jquery but not canvas neither any game engine.
 
+## Live
+
+Check it out working on https://html5-asteroids.herokuapp.com/
+
 ## Controls
 
 * Left/Right arrow keys for ship 45° rotation, Up to advance
