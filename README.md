@@ -3,4 +3,11 @@ README.md
 
 ## About
 
-A simple asteroids-like clone made with JS, CSS3 and HTML5. Uses jquery but not canvas neither any game engine.
+A simple asteroids-like clone made with JS, CSS3 and HTML5.
+Uses jquery but not canvas neither any game engine.
+
+## Controls
+
+* Left/Right arrow keys for ship 45° rotation, Up to advance
+* space bar to shoot
+* 'o' enables a ver simple retro lok&feel

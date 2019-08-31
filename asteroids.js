@@ -1,28 +1,5 @@
 /**
- * HTML5 Asteroids
- * ===============
- * 
- * - retro bg
- * - points+ asset & animation
- * - check collision when ship advances
- *
- * - review asteroids movement pattern
- * - animate ship movement
- * - possibly change name
- * - ship figure modern
- * 
- * - repo
- * - jq & assets local, deploy to heroku
- * - 16 positions movement
- * - consider FPS
- * - dificulty levels
- * - movement fuel (if u ran out you cant move)
- * - other cool asteroids links
- * 
- * - sound
- * - no img background
- * - remove jquery
- * - top score on localstorage
+ * HTML5 no canvas Asteroids clone
  */
 
 /**
@@ -783,17 +760,6 @@ class AsteroidGenerator {
 		this._intervalRef = null;
 		this._game = game;
 		this._$asteroidAsset = $(ELEMENT_SELECTORS.ASTEROID);
-	}
-	
-	/**
-	 * @unused
-	 */
-	_generateFixedSizeAsteroid() {
-		const size = 48;		
-		const elem = this._$asteroidAsset.clone().removeClass('hidden');
-		const params = this.getNextAsteroidPositionAndDirection();
-		const velocity = getRandomInt(1,10);
-		return new Asteroid(elem, params.x, params.y, params.direction, velocity, size, size);
 	}
 	
 	_generateAsteroid() {
