@@ -18,5 +18,5 @@ Check it out working on https://html5-asteroids.herokuapp.com/
 
 ## Credits
 
-Fonts are not in this repo but can be dowloaded from http://www.onlinewebfonts.com
-Original background from https://codepen.io/agoodwin/pen/NMJoER
+* Fonts are not in this repo but can be dowloaded from http://www.onlinewebfonts.com
+* Original background from https://codepen.io/agoodwin/pen/NMJoER
