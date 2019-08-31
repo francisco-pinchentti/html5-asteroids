@@ -105,7 +105,8 @@ const ELEMENT_SELECTORS = {
 	DEBUGGEABLE: [
 		'.ship-coll',
 		'.base',
-		'.point'
+		'.point',
+		'.asteroid'
 	].join(',')
 }
 
@@ -384,6 +385,9 @@ class Game {
 	addAsteroid(asteroid) {
 		this.asteroidsObjects.push(asteroid);
 		asteroid._$element.appendTo(this._$element);
+		if (this._debugMode) {
+			asteroid._$element.addClass('debug');
+		}
 	}
 	
 	_appendToSelf($elem) {
@@ -400,22 +404,21 @@ class Game {
 		$(ELEMENT_SELECTORS.SCORE_BOX).text(formattedScore);
 	}
 	
-    onTick() {
+	onTick() {
 		// laser on tick and leaving viewport:
-        this.laserObjects.forEach( (l) => {
-			if (!l.isWithinBoundaries(0,0, this.dimensions.w, this.dimensions.h)) {
+		this.laserObjects.forEach((l) => {
+			if (!l.isWithinBoundaries(0, 0, this.dimensions.w, this.dimensions.h)) {
 				l.destroy();
 			} else {
 				l.onGameTick();
 			}
-        });
-		
+		});
+	
 		// asteroid collsions with ship or lasers
-		const shipColisionArea = this.ship.getCollisionArea();
-		this.asteroidsObjects.forEach( (a) => {			
+		this.asteroidsObjects.forEach((a) => {
 			if (!this._isAsteroidInGameViewport(a)) {
 				a.destroy();
-			} else if ( a.isWithinBoundaries(shipColisionArea.x1+4, shipColisionArea.y1+4, shipColisionArea.x2-4,shipColisionArea.y2-4) ) {
+			} else if (this._checkShipCollisionWithAsteroid(a)) {
 				// asteroid collided with player ship
 				a.destroy(true);
 				this._gameOver();
@@ -428,16 +431,35 @@ class Game {
 					this.laserObjects = this.laserObjects.filter(l => l.isActive());
 				} else {
 					a.onGameTick();
+					if (this._checkShipCollisionWithAsteroid(a)) {
+						// asteroid collided with player ship after moving
+						a.destroy(true);
+						this._gameOver();
+					}
 				}
 			}
 		});
-				
-		// filter our inactive objects:
+
+		this._cleanUpInactiveObjects();
+		this._checkScore();
+	}
+
+	_cleanUpInactiveObjects() {
 		this.asteroidsObjects = this.asteroidsObjects.filter(a => a.isActive());
 		this.laserObjects = this.laserObjects.filter(l => l.isActive());
-		
-		this._checkScore();
-    }
+	}
+	
+	_checkShipCollisionWithAsteroid(asteroid) {
+		const shipColisionArea = this.ship.getCollisionArea();
+		const offset = (this._debugMode) ? -4 : 4;
+		return asteroid
+			.isWithinBoundaries(
+				shipColisionArea.x1 + offset,
+				shipColisionArea.y1 + offset,
+				shipColisionArea.x2 - offset,
+				shipColisionArea.y2 - offset
+			);
+	}
 
 	_getLaserInArea(boundingBox) {
 		return this.laserObjects
