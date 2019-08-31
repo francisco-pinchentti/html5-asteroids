@@ -157,11 +157,12 @@ class GameObject {
 	}
 	
 	isWithinBoundaries(x1, y1, x2, y2) {
+		const selfArea = this.getCollisionArea()
 		return (
-			this.getX() > x1 &&
-			this.getX() < x2 &&
-			this.getY() > y1 &&
-			this.getY() < y2
+			selfArea.x1 < x2 &&
+			selfArea.x2 > x1 &&
+			selfArea.y1 < y2 &&
+			selfArea.y2 > y1
 		);
 	}
 	
@@ -642,6 +643,16 @@ class Game {
 			case Game.keycodes.o:
 				this._toggleOldschoolStyle();
 				break;
+			case Game.keycodes.a:
+				if (this._debugMode) {
+					this._asteroidGenerator.addAsteroid();
+				}
+				break;
+			case Game.keycodes.b:
+				if (this._debugMode) {
+					this.asteroidsObjects.forEach(a => a.onGameTick());
+				}
+				break;
             default:
                 break;
         }
@@ -699,7 +710,9 @@ Game.keycodes = {
 	down: 40,
 	shift: 16,
 	ctrl: 17,
-    space: 32,
+	space: 32,
+	a: 65,
+	b: 66,
 	d: 68,
 	n: 78,
 	o: 79,
